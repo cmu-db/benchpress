@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<body>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			socket = io.connect('http://gs14445.sp.cs.cmu.edu:3001');
+			// setup once
+			socket.emit('setup', {dbms: 'MySQL', benchmark: 'x'});
+			// setup again on reply, in theory this should repeat infinitely
+			counter = 0;  // keep track of the number of restarts
+			socket.on('setup', function(msg) {
+				console.log(counter++);
+				socket.emit('gameover', 'menu');
+				// setup again after 1 second
+				setTimeout(function() {
+					socket.emit('setup', {dbms: 'MySQL', benchmark: 'x'});
+				}, 3000);
+			});
+		});
+	</script>
+</body>
+</html>

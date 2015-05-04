@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>Clumsy Bird</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="index.css">
+  </head>
+
+  <body>
+    <!-- melonJS Library -->
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/melonjs/2.0.2/melonJS.js"></script>
+    <script type="text/javascript" src="js/debugPanel.js" ></script>
+    <script type="text/javascript" src="build/clumsy-min.js" ></script>
+    <script type="text/javascript">
+      window.onReady(function onReady() {
+        socket = io.connect('http://gs14445.sp.cs.cmu.edu:3001');
+        socket.on('chat message', function(msg) {
+            console.log(msg);
+        });
+        game.onload();
+      });
+    </script>
+
+  </body>
+</html>
