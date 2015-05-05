@@ -1,6 +1,8 @@
 var BirdEntity = me.Entity.extend({
-    init: function(x, y) {
-        var settings = {};
+    init: function(x, y, settings) {
+        if (typeof(settings) === 'undefined') {
+            settings = {};
+        }
         settings.image = me.loader.getImage(game.data.playerImg);
         settings.width = 85;
         settings.height = 60;
@@ -34,17 +36,11 @@ var BirdEntity = me.Entity.extend({
 
     update: function(dt) {
         // mechanics
-
         if (!game.data.start) {
             return this._super(me.Entity, 'update', [dt]);
         }
-        if (me.input.keyStatus("up")) {
-            this.pos.y -= me.timer.tick * 3;
-        } else if (me.input.keyStatus("down")) {
-            this.pos.y += me.timer.tick * 3;
-        }
+        this.pos.y = game.data.trueHeight;
         this.updateBounds();
-
         var hitSky = -80; // bird height + 20px
         if (this.pos.y <= hitSky || this.collided) {
             this.body.gravity = 0.2;    
@@ -90,7 +86,31 @@ var BirdEntity = me.Entity.extend({
             });
         this.endTween.start();
     }
+});
 
+
+var BirdIndicatorEntity = BirdEntity.extend({
+    init: function(x, y) {
+        this._super(BirdEntity, 'init', [x, y, {collisionMask: 0}]);
+        this.renderable.alpha = 0.5;
+        this.collidable = false;
+    },
+
+    update: function(dt) {
+        // mechanics
+        if (!game.data.start) {
+            return this._super(me.Entity, 'update', [dt]);
+        }
+        if (me.input.keyStatus("up")) {
+            game.data.targetHeight -= me.timer.tick * 3;
+        } else if (me.input.keyStatus("down")) {
+            game.data.targetHeight += me.timer.tick * 3;
+        }
+        this.pos.y = game.data.targetHeight;
+        this.updateBounds();
+        this._super(me.Entity, 'update', [dt]);
+        return true;
+    },
 });
 
 

@@ -16,7 +16,9 @@ var game = {
         playerImg: 'clumsy',
         stageImgs: {},
         db: null,
-        benchmark: null
+        benchmark: null,
+        targetHeight: 200,
+        trueHeight: 200
     },
 
     "onload": function() {
@@ -44,6 +46,10 @@ var game = {
                 alert("Error loading configuration: " + msg);
             }
         });
+        
+        socket.on('height', function(msg) {
+            game.data.trueHeight = parseInt(msg);
+        });
     },
 
     "loaded": function() {
@@ -59,6 +65,7 @@ var game = {
         me.input.bindKey(me.input.KEY.M, "mute", true);
 
         me.pool.register("clumsy", BirdEntity);
+        me.pool.register("clumsyIndicator", BirdIndicatorEntity);
         me.pool.register("pipe", PipeEntity, true);
         me.pool.register("hit", HitEntity, true);
         me.pool.register("ground", Ground, true);

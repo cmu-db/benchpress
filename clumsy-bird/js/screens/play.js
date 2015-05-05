@@ -5,6 +5,8 @@ game.PlayScreen = me.ScreenObject.extend({
         var vol = me.device.ua.contains("Firefox") ? 0.3 : 0.5;
         me.audio.setVolume(vol);
         this._super(me.ScreenObject, 'init');
+        this.heightSender = null;
+        this.heightIntervalTime = 100;
     },
 
     onResetEvent: function() {
@@ -13,6 +15,12 @@ game.PlayScreen = me.ScreenObject.extend({
         if (!game.data.muted){
             //me.audio.play("theme", true);  // commenting out this very annoying soundtrack
         }
+        
+        clearInterval(this.heightSender);
+        this.heightSender = setInterval(function() {
+            console.log(game.data.targetHeight);
+            socket.emit('height', game.data.targetHeight);
+        }, this.heightIntervalTime);
 
         me.input.bindKey(me.input.KEY.SPACE, "fly", true);
         game.data.score = 0;
@@ -33,6 +41,9 @@ game.PlayScreen = me.ScreenObject.extend({
 
         this.bird = me.pool.pull("clumsy", 60, me.game.viewport.height/2 - 100);
         me.game.world.addChild(this.bird, 10);
+        
+        this.birdIndicator = me.pool.pull("clumsyIndicator", this.bird.pos.x, this.bird.pos.y-1);
+        me.game.world.addChild(this.birdIndicator, 10);
 
         //inputs
         me.input.bindPointer(me.input.mouse.LEFT, me.input.KEY.SPACE);
@@ -61,6 +72,8 @@ game.PlayScreen = me.ScreenObject.extend({
         this.bird = null;
         this.ground1 = null;
         this.ground2 = null;
+        this.birdIndicator = null;
+        clearInterval(this.heightSender);
         me.input.unbindKey(me.input.KEY.SPACE);
         me.input.unbindPointer(me.input.mouse.LEFT);
     }
