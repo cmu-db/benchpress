@@ -10,8 +10,8 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 
 public class BenchpressServer {
-    private static final int defaultHeight = 500;
-    private static final Timer timer = new Timer();
+    private static final int defaultHeight = 200;
+    private static Timer timer = null;
 
     private static int targetHeight = defaultHeight;
     private static int actualHeight = defaultHeight;
@@ -19,19 +19,12 @@ public class BenchpressServer {
     public static void main(String[] args) throws InterruptedException {
 
         Configuration config = new Configuration();
-        config.setHostname("localhost");
-        config.setPort(3000);
+        config.setHostname("gs14445.sp.cs.cmu.edu");
+        config.setPort(3001);
 
         final SocketIOServer server = new SocketIOServer(config);
 
         final Random r = new Random();
-        final TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                int diff = targetHeight - actualHeight;
-                actualHeight += diff * r.nextDouble();
-            }
-        };
 
         server.addConnectListener(new ConnectListener() {
             @Override
@@ -57,6 +50,15 @@ public class BenchpressServer {
                 }
 
                 // Setup fake throughput timer to send update every 10ms
+		final TimerTask task = new TimerTask() {
+		    @Override
+		    public void run() {
+			int diff = targetHeight - actualHeight;
+			actualHeight += diff * r.nextDouble();
+                        server.getBroadcastOperations().sendEvent("height", Integer.valueOf(actualHeight).toString());
+		    }
+		};
+		timer = new Timer();
                 timer.schedule(task, 0, 10);
 
                 // Send 'ready' response to client
@@ -85,8 +87,11 @@ public class BenchpressServer {
                 } else if (data.equals("menu")) {
                     System.out.println("Returning to menu (stop db)\n");
                     // TODO: stop db
-                    timer.cancel();
-                    timer.purge();
+		    if (timer != null) {
+                        timer.cancel();
+                        timer.purge();
+                        timer = null;
+                    }
                 } else {
                     System.out.println("Unrecognized gameover option: " + data + "\n");
                 }
