@@ -11,7 +11,7 @@ var game = {
         newHiScore: false,
         muted: false,
         paused: false,
-        text: "latency: 10",
+        text: "",
         level: 200,
         playerImg: 'clumsy',
         stageImgs: {bg: 'bg', pipe: 'pipe1', ground: 'ground'},

@@ -19,6 +19,10 @@ game.HUD.Container = me.Container.extend({
         // add our child score object at the top left corner
         this.addChild(new game.HUD.ScoreItem(5, 5));
         this.addChild(new game.HUD.Text(0, 0));
+    },
+    
+    update: function() {
+        game.data.text = "target throughput: " + game.data.trueHeight + "\tachieved throughput: " + game.data.targetHeight;
     }
 });
 
