@@ -144,7 +144,7 @@ var Tweet = me.GUI_Object.extend({
     onClick: function(event) {
         var shareText = 'Just made ' + game.data.steps + ' steps on Clumsy Bird! Can you beat me? Try online here!';
         var url = 'http://ellisonleao.github.io/clumsy-bird/';
-        var hashtags = 'clumsybird,melonjs'
+        var hashtags = 'clumsybird,melonjs';
         window.open('https://twitter.com/intent/tweet?text=' + shareText + '&hashtags=' + hashtags + '&count=' + url + '&url=' + url, 'Tweet!', 'height=300,width=400')
         return false;
     }
@@ -187,7 +187,7 @@ var StageButton = me.GUI_Object.extend({
 
 var RetryButton = me.GUI_Object.extend({
     init: function(x, y) {
-        this._super(me.GUI_Object, 'init', [x, y, {image: "clumsy"}]);
+        this._super(me.GUI_Object, 'init', [x, y, {image: "retrybutton"}]);
     },
     
     onClick: function(event) {
@@ -198,7 +198,7 @@ var RetryButton = me.GUI_Object.extend({
 
 var NewConfigButton = me.GUI_Object.extend({
     init: function(x, y) {
-        this._super(me.GUI_Object, 'init', [x, y, {image: "clumsy2"}]);
+        this._super(me.GUI_Object, 'init', [x, y, {image: "newbutton"}]);
     },
     
     onClick: function(event) {

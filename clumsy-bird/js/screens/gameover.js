@@ -2,6 +2,8 @@ game.GameOverScreen = me.ScreenObject.extend({
     init: function() {
         this.savedData = null;
         this.handler = null;
+        this.cursor = [0, 0];
+        this.buttonGrid = [];
     },
 
     onResetEvent: function() {
@@ -40,22 +42,13 @@ game.GameOverScreen = me.ScreenObject.extend({
                                     me.video.renderer.getHeight() - 96);
         me.game.world.addChild(this.ground1, 11);
         me.game.world.addChild(this.ground2, 11);
-
-        // share button
-        var buttonsHeight = me.video.renderer.getHeight() / 2 + 200;
-        this.share = new Share(me.video.renderer.getWidth()/2 - 180, buttonsHeight);
-        me.game.world.addChild(this.share, 12);
-
-        //tweet button
-        this.tweet = new Tweet(this.share.pos.x + 170, buttonsHeight);
-        me.game.world.addChild(this.tweet, 12);
         
         // retry button
-        this.retry = new RetryButton(me.video.renderer.getWidth()/2 - 180, buttonsHeight - 100);
+        this.retry = new RetryButton(me.video.renderer.getWidth()/2 - 180, me.video.renderer.getHeight() - 200);
         me.game.world.addChild(this.retry, 12);
         
         // new config button
-        this.newConfig = new NewConfigButton(me.video.renderer.getWidth()/2, buttonsHeight - 100);
+        this.newConfig = new NewConfigButton(me.video.renderer.getWidth()/2, me.video.renderer.getHeight() - 200);
         me.game.world.addChild(this.newConfig, 12);
 
         // add the dialog witht he game information
@@ -104,14 +97,54 @@ game.GameOverScreen = me.ScreenObject.extend({
             }
         }));
         me.game.world.addChild(this.dialog, 12);
+        
+        this.buttonGrid = [[this.retry, this.newConfig]];
+        
+        me.input.bindKey(me.input.KEY.RIGHT, "right", true);
+        me.input.bindKey(me.input.KEY.LEFT, "left", true);
+        me.input.bindKey(me.input.KEY.UP, "up", true);
+        me.input.bindKey(me.input.KEY.DOWN, "down", true);
+        me.input.bindKey(me.input.KEY.SPACE, "select", true);
+        // deal with button grid scrolling
+        this.getHighlightedButton().alpha = 0.5;
+        var _this = this;
+        this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
+            if (action === "select") {
+                _this.getHighlightedButton().onClick();
+            } else {
+                _this.getHighlightedButton().alpha = 1.0;
+                if (action === "left") {
+                    _this.cursor = [_this.cursor[0], _this.cursor[1] - 1];
+                } else if (action === "right") {
+                    _this.cursor = [_this.cursor[0], _this.cursor[1] + 1];
+                } else if (action === "up") {
+                    _this.cursor = [_this.cursor[0] - 1, _this.cursor[1]];
+                } else if (action === "down") {
+                    _this.cursor = [_this.cursor[0] + 1, _this.cursor[1]];
+                }
+                _this.getHighlightedButton().alpha = 0.5;
+            }
+        });
+    },
+    
+    getHighlightedButton: function() {
+        var mod = function(x, n) {
+            return ((x % n) + n) % n;
+        }
+        return this.buttonGrid[mod(this.cursor[0], this.buttonGrid.length)][mod(this.cursor[1], this.buttonGrid[0].length)];
     },
 
     onDestroyEvent: function() {
         // unregister the event
-        //me.event.unsubscribe(this.handler);
         this.ground1 = null;
         this.ground2 = null;
         this.font = null;
         me.audio.stop("theme");
+        me.event.unsubscribe(this.handler);
+        me.input.unbindKey(me.input.KEY.UP);
+        me.input.unbindKey(me.input.KEY.DOWN);
+        me.input.unbindKey(me.input.KEY.LEFT);
+        me.input.unbindKey(me.input.KEY.RIGHT);
+        me.input.unbindKey(me.input.KEY.SPACE);
     }
 });

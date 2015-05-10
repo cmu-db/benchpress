@@ -14,7 +14,7 @@ var game = {
         text: "latency: 10",
         level: 200,
         playerImg: 'clumsy',
-        stageImgs: {},
+        stageImgs: {bg: 'bg', pipe: 'pipe1', ground: 'ground'},
         db: null,
         benchmark: null,
         targetHeight: 200,

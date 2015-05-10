@@ -1,8 +1,8 @@
 game.StageSelectScreen = game.SelectionScreen.extend({
     init: function() {
-        var xButton = {db: "X", img: "clumsy2", stageImgs: {'bg': 'greenbg', 'pipe': 'greenpipe', 'ground': 'greenground'}}
-        var yButton = {db: "Y", img: "clumsy", stageImgs: {'bg': 'icebg', 'pipe': 'icepipe', 'ground': 'iceground'}}
+        var xButton = {db: "TPCC", img: "tpccbutton", targetImgs: {'bg': 'bg1', 'pipe': 'pipe1', 'ground': 'ground1'}}
+        var yButton = {db: "YCSB", img: "ycsbbutton", targetImgs: {'bg': 'bg2', 'pipe': 'pipe2', 'ground': 'ground2'}}
         var buttons = [xButton, yButton];
-        this._super(game.SelectionScreen, 'init', [buttons, StageButton]);
+        this._super(game.SelectionScreen, 'init', [buttons, StageButton, 'databasebg']);
     },
 });

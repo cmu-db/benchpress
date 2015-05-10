@@ -117,7 +117,7 @@ var BirdIndicatorEntity = BirdEntity.extend({
 var PipeEntity = me.Entity.extend({
     init: function(x, y) {
         var settings = {};
-        settings.image = this.image = me.loader.getImage('pipe');
+        settings.image = this.image = me.loader.getImage(game.data.stageImgs.pipe);
         settings.width = 148;
         settings.height= 1664;
         settings.spritewidth = 148;
@@ -218,7 +218,7 @@ var HitEntity = me.Entity.extend({
 var Ground = me.Entity.extend({
     init: function(x, y) {
         var settings = {};
-        settings.image = me.loader.getImage('ground');
+        settings.image = me.loader.getImage(game.data.stageImgs.ground);
         settings.width = 900;
         settings.height= 96;
         this._super(me.Entity, 'init', [x, y, settings]);

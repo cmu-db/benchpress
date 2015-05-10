@@ -16,9 +16,11 @@ game.PlayScreen = me.ScreenObject.extend({
             //me.audio.play("theme", true);  // commenting out this very annoying soundtrack
         }
         
+        me.input.bindKey(me.input.KEY.UP, "up", true);
+        me.input.bindKey(me.input.KEY.DOWN, "down", true);
+        
         clearInterval(this.heightSender);
         this.heightSender = setInterval(function() {
-            console.log(game.data.targetHeight);
             socket.emit('height', game.data.targetHeight);
         }, this.heightIntervalTime);
 
@@ -28,7 +30,7 @@ game.PlayScreen = me.ScreenObject.extend({
         game.data.start = false;
         game.data.newHiscore = false;
 
-        me.game.world.addChild(new BackgroundLayer('bg', 1));
+        me.game.world.addChild(new BackgroundLayer(game.data.stageImgs.bg, 1));
 
         this.ground1 = me.pool.pull('ground', 0, me.video.renderer.getHeight() - 96);
         this.ground2 = me.pool.pull('ground', me.video.renderer.getWidth(),
