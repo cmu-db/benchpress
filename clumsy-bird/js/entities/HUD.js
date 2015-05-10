@@ -22,7 +22,7 @@ game.HUD.Container = me.Container.extend({
     },
     
     update: function() {
-        game.data.text = "target throughput: " + game.data.trueHeight + "\tachieved throughput: " + game.data.targetHeight;
+        game.data.text = "target: " + game.data.targetHeight + "               actual: " + game.data.trueHeight;
     }
 });
 
@@ -39,7 +39,8 @@ game.HUD.Text = me.Renderable.extend({
         this._super(me.Renderable, "init", [x, y, 10, 10]);
 
         // local copy of the global score
-        this.stepsFont = new me.Font('courier', 24, '#000', 'left');
+        this.leftText = new me.Font('gamefont', 40, '#000', 'left');
+        this.rightText = new me.Font('gamefont', 40, '#000', 'right');
 
         // make sure we use screen coordinates
         this.floating = true;
@@ -47,7 +48,10 @@ game.HUD.Text = me.Renderable.extend({
 
     draw: function (renderer) {
         var context = renderer.getContext();
-        this.stepsFont.draw(context, game.data.text, 0, 0);
+        if (me.state.isCurrent(me.state.PLAY)) {
+            this.leftText.draw(context, "target: " + (600 - game.data.targetHeight) + '\nactual: ' + (600 - game.data.trueHeight), 10, 0);
+            this.rightText.draw(context, "", me.video.renderer.getWidth(), 0);
+        }
     }
 
 });

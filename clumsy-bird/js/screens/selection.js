@@ -53,8 +53,8 @@ game.SelectionScreen = me.ScreenObject.extend({
             }
             var row = Math.floor(i / this.shape[0]);
             var col = i % this.shape[0];
-            var x = centerX - fullWidth / 2 + (gImage.width + margin) * col - gImage.width / 2;
-            var y = centerY - fullHeight / 2 + (gImage.height + margin) * row - gImage.height / 2;
+            var x = centerX - fullWidth / 2 + (gImage.width + margin) * col// - gImage.width / 2;
+            var y = centerY - fullHeight / 2 + (gImage.height + margin) * row// - gImage.height / 2;
             var button = new this.buttonFactory(x, y, gImage, this.buttons[i].db, this.buttons[i].targetImgs);
             this.buttonGrid[row][col] = button;
             me.game.world.addChild(button, 12);

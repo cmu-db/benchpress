@@ -127,7 +127,7 @@ var PipeEntity = me.Entity.extend({
         this.alwaysUpdate = true;
         this.body.addShape(new me.Rect(0 ,0, settings.width, settings.height));
         this.body.gravity = 0;
-        this.body.vel.set(-3, 0);
+        this.body.vel.set(-6, 0);
         this.type = 'pipe';
     },
 
@@ -154,8 +154,8 @@ var PipeGenerator = me.Renderable.extend({
         this._super(me.Renderable, 'init', [0, me.game.viewport.width, me.game.viewport.height]);
         this.alwaysUpdate = true;
         this.generate = 0;
-        this.pipeFrequency = 150;
-        this.pipeHoleSize = 1240 + 70;
+        this.pipeFrequency = 100;
+        this.pipeHoleSize = 1240 + 50;
         this.posX = me.game.viewport.width;
     },
 

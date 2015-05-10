@@ -7,6 +7,7 @@ game.GameOverScreen = me.ScreenObject.extend({
     },
 
     onResetEvent: function() {
+        socket.emit("gameover", "crash");
         //save section
         this.savedData = {
             score: game.data.score,

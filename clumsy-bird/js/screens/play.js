@@ -13,7 +13,7 @@ game.PlayScreen = me.ScreenObject.extend({
         me.game.reset();
         me.audio.stop("theme");
         if (!game.data.muted){
-            //me.audio.play("theme", true);  // commenting out this very annoying soundtrack
+            me.audio.play("theme", true);  // commenting out this very annoying soundtrack
         }
         
         me.input.bindKey(me.input.KEY.UP, "up", true);
@@ -29,6 +29,7 @@ game.PlayScreen = me.ScreenObject.extend({
         game.data.steps = 0;
         game.data.start = false;
         game.data.newHiscore = false;
+        game.data.targetHeight = 200;
 
         me.game.world.addChild(new BackgroundLayer(game.data.stageImgs.bg, 1));
 

@@ -9,6 +9,9 @@ game.TitleScreen = me.ScreenObject.extend({
 
     onResetEvent: function() {
         me.audio.stop("theme");
+        if (!game.data.muted){
+            me.audio.play("theme", true);  // commenting out this very annoying soundtrack
+        }
         game.data.newHiScore = false;
 
         me.game.world.addChild(new BackgroundLayer('bg', 1));
@@ -25,7 +28,7 @@ game.TitleScreen = me.ScreenObject.extend({
         //logo
         var logoImg = me.loader.getImage('logo');
         this.logo = new me.Sprite(
-            me.game.viewport.width/2 - 170,
+            me.game.viewport.width/2 - 100,
             -logoImg,
             logoImg
         );
@@ -42,6 +45,7 @@ game.TitleScreen = me.ScreenObject.extend({
         me.game.world.addChild(this.ground1, 11);
         me.game.world.addChild(this.ground2, 11);
 
+        /*
         me.game.world.addChild(new (me.Renderable.extend ({
             // constructor
             init: function() {
@@ -59,6 +63,7 @@ game.TitleScreen = me.ScreenObject.extend({
                 this.font.draw(context, this.text, xpos, ypos);
             }
         })), 12);
+        */
     },
 
     onDestroyEvent: function() {
