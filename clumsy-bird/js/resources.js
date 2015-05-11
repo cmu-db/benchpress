@@ -1,5 +1,6 @@
 game.resources = [
     // images
+    {name: "clumsy", type:"image", src: "data/img/clumsy.png"},
     {name: "clumsy1", type:"image", src: "data/img/clumsy1.png"},
     {name: "clumsy2", type:"image", src: "data/img/clumsy2.png"},
     {name: "clumsy3", type:"image", src: "data/img/clumsy3.png"},

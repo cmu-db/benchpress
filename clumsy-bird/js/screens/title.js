@@ -5,6 +5,7 @@ game.TitleScreen = me.ScreenObject.extend({
         this.ground1 = null;
         this.ground2 = null;
         this.logo = null;
+        this.bird = null;
     },
 
     onResetEvent: function() {
@@ -26,16 +27,27 @@ game.TitleScreen = me.ScreenObject.extend({
         });
 
         //logo
-        var logoImg = me.loader.getImage('logo');
+        var logoImg = me.loader.getImage("logo");
         this.logo = new me.Sprite(
-            me.game.viewport.width/2 - 100,
+            me.game.viewport.width/2 - 250,
             -logoImg,
             logoImg
         );
         me.game.world.addChild(this.logo, 10);
 
+        this.bird = new me.AnimationSheet(me.game.viewport.width/2 - 40, -60, {
+            image : me.loader.getImage('clumsy'),
+            framewidth: 85,
+            frameheight: 60,
+            spritewidth: 85,
+            spriteheight: 60
+        });
+        this.bird.addAnimation("fly", [0, 1, 2]);
+        this.bird.setCurrentAnimation("fly");
+        me.game.world.addChild(this.bird, 11);
+
         var that = this;
-        var logoTween = me.pool.pull("me.Tween", this.logo.pos)
+        var birdTween = me.pool.pull("me.Tween", this.bird.pos)
             .to({y: me.game.viewport.height/2 - 100}, 1000)
             .easing(me.Tween.Easing.Exponential.InOut).start();
 
@@ -74,7 +86,9 @@ game.TitleScreen = me.ScreenObject.extend({
         me.input.unbindPointer(me.input.mouse.LEFT);
         this.ground1 = null;
         this.ground2 = null;
+        me.game.world.removeChild(this.bird);
         me.game.world.removeChild(this.logo);
+        this.bird = null;
         this.logo = null;
     }
 });
