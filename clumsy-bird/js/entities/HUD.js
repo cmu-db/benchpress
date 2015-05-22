@@ -49,8 +49,8 @@ game.HUD.Text = me.Renderable.extend({
     draw: function (renderer) {
         var context = renderer.getContext();
         if (me.state.isCurrent(me.state.PLAY)) {
-            this.leftText.draw(context, "target: " + (600 - game.data.targetHeight) + '\nactual: ' + (600 - game.data.trueHeight), 10, 0);
-            this.rightText.draw(context, "", me.video.renderer.getWidth(), 0);
+            this.leftText.draw(context, "TARGET: " + (600 - game.data.targetHeight) + '\nACTUAL: ' + (600 - game.data.trueHeight), 20, 0);
+            this.rightText.draw(context, game.data.db + "\n" + game.data.benchmark, me.video.renderer.getWidth() - 20, 0);
         }
     }
 

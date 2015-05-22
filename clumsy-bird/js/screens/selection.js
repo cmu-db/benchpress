@@ -24,6 +24,16 @@ game.SelectionScreen = me.ScreenObject.extend({
     },
 
     onResetEvent: function() {
+        me.audio.stop("theme");
+        if (!game.data.muted){
+            me.audio.play("theme", true);  // commenting out this very annoying soundtrack
+        }
+        me.game.world.addChild(new BackgroundLayer('bg', 1));
+        this.ground1 = me.pool.pull("ground", 0, me.video.renderer.getHeight() - 96);
+        this.ground2 = me.pool.pull("ground", me.video.renderer.getWidth(),
+                                    me.video.renderer.getHeight() - 96);
+        me.game.world.addChild(this.ground1, 11);
+        me.game.world.addChild(this.ground2, 11);
         me.input.bindKey(me.input.KEY.RIGHT, "right", true);
         me.input.bindKey(me.input.KEY.LEFT, "left", true);
         me.input.bindKey(me.input.KEY.UP, "up", true);
@@ -92,5 +102,7 @@ game.SelectionScreen = me.ScreenObject.extend({
         me.input.unbindKey(me.input.KEY.LEFT);
         me.input.unbindKey(me.input.KEY.RIGHT);
         me.input.unbindKey(me.input.KEY.SPACE);
+        this.ground1 = null;
+        this.ground2 = null;
     }
 });

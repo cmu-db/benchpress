@@ -49,7 +49,7 @@ game.GameOverScreen = me.ScreenObject.extend({
         me.game.world.addChild(this.retry, 12);
         
         // new config button
-        this.newConfig = new NewConfigButton(me.video.renderer.getWidth()/2, me.video.renderer.getHeight() - 200);
+        this.newConfig = new NewConfigButton(me.video.renderer.getWidth()/2 + 25, me.video.renderer.getHeight() - 200);
         me.game.world.addChild(this.newConfig, 12);
 
         // add the dialog witht he game information
