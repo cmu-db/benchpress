@@ -49,7 +49,7 @@ game.HUD.Text = me.Renderable.extend({
     draw: function (renderer) {
         var context = renderer.getContext();
         if (me.state.isCurrent(me.state.PLAY)) {
-            this.leftText.draw(context, "TARGET: " + (600 - game.data.targetHeight) + '\nACTUAL: ' + (600 - game.data.trueHeight), 20, 0);
+            this.leftText.draw(context, "TARGET: " + (600 - game.data.targetHeight) + 'txn/sec\nACTUAL: ' + (600 - game.data.trueHeight) + "txn/sec", 20, 0);
             this.rightText.draw(context, game.data.db + "\n" + game.data.benchmark, me.video.renderer.getWidth() - 20, 0);
         }
     }
@@ -160,36 +160,36 @@ var Tweet = me.GUI_Object.extend({
 });
 
 var PlayerButton = me.GUI_Object.extend({
-    init: function(x, y, gImage, db, playerImg) {
-        this.db = db;
-        this.playerImg = playerImg;
-        this._super(me.GUI_Object, 'init', [x, y, {image: gImage}]);
-    },
-    
-    onClick: function(event) {
-        console.log('using database: ' + this.db);
-        game.data.db = this.db;
-        game.data.playerImg = this.playerImg;
-
-        me.state.change(game.states.STAGE_SELECT);
-    }
-});
-
-var StageButton = me.GUI_Object.extend({
-    init: function(x, y, gImage, benchmark, stageImgs) {
+    init: function(x, y, gImage, benchmark, playerImg) {
         this.benchmark = benchmark;
-        this.stageImgs = stageImgs;  // a struct containing the stage graphics
+        this.playerImg = playerImg;
         this._super(me.GUI_Object, 'init', [x, y, {image: gImage}]);
     },
     
     onClick: function(event) {
         console.log('using benchmark: ' + this.benchmark);
         game.data.benchmark = this.benchmark;
-        game.data.stageImgs = this.stageImgs;
-        
+        game.data.playerImg = this.playerImg;
+
         // send off config
         socket.emit('setup', {dbms: game.data.db, benchmark: game.data.benchmark});
         me.state.change(me.state.LOADING);
+    }
+});
+
+var StageButton = me.GUI_Object.extend({
+    init: function(x, y, gImage, db, stageImgs) {
+        this.db = db;
+        this.stageImgs = stageImgs;  // a struct containing the stage graphics
+        this._super(me.GUI_Object, 'init', [x, y, {image: gImage}]);
+    },
+    
+    onClick: function(event) {
+        console.log('using db: ' + this.db);
+        game.data.db = this.db;
+        game.data.stageImgs = this.stageImgs;
+        
+        me.state.change(game.states.PLAYER_SELECT);
     }
 });
 
@@ -211,6 +211,6 @@ var NewConfigButton = me.GUI_Object.extend({
     
     onClick: function(event) {
         socket.emit('gameover', "menu");
-        me.state.change(game.states.PLAYER_SELECT);
+        me.state.change(game.states.STAGE_SELECT);
     }
 });

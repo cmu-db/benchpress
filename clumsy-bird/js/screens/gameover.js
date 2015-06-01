@@ -34,15 +34,28 @@ game.GameOverScreen = me.ScreenObject.extend({
             me.video.renderer.getHeight()/2 - gImageBoard.height/2,
             gImageBoard
         ), 10);
-
         me.game.world.addChild(new BackgroundLayer('bg', 1));
 
         // ground
-        this.ground1 = me.pool.pull('ground', 0, me.video.renderer.getHeight() - 96);
-        this.ground2 = me.pool.pull('ground', me.video.renderer.getWidth(),
-                                    me.video.renderer.getHeight() - 96);
-        me.game.world.addChild(this.ground1, 11);
-        me.game.world.addChild(this.ground2, 11);
+        //game.data.stageImgs.ground = "ground1";
+        //this.ground1 = me.pool.pull('ground', 0, me.video.renderer.getHeight() - 96);
+        //this.ground2 = me.pool.pull('ground', me.video.renderer.getWidth(),
+        //                            me.video.renderer.getHeight() - 96);
+        //me.game.world.addChild(this.ground1, 11);
+        //me.game.world.addChild(this.ground2, 11);
+        this.ground1 = me.loader.getImage('ground');
+        me.game.world.addChild(new me.Sprite(
+            0,
+            me.video.renderer.getHeight() - 96,
+            this.ground1
+        ), 11);
+        this.ground2 = me.loader.getImage('ground');
+        me.game.world.addChild(new me.Sprite(
+            me.video.renderer.getWidth(),
+            me.video.renderer.getHeight() - 96,
+            this.ground2
+        ), 11);
+
         
         // retry button
         this.retry = new RetryButton(me.video.renderer.getWidth()/2 - 180, me.video.renderer.getHeight() - 200);
@@ -103,8 +116,8 @@ game.GameOverScreen = me.ScreenObject.extend({
         
         me.input.bindKey(me.input.KEY.RIGHT, "right", true);
         me.input.bindKey(me.input.KEY.LEFT, "left", true);
-        me.input.bindKey(me.input.KEY.UP, "up", true);
-        me.input.bindKey(me.input.KEY.DOWN, "down", true);
+        //me.input.bindKey(me.input.KEY.UP, "up", true);
+        //me.input.bindKey(me.input.KEY.DOWN, "down", true);
         me.input.bindKey(me.input.KEY.SPACE, "select", true);
         // deal with button grid scrolling
         this.getHighlightedButton().alpha = 0.5;
@@ -118,11 +131,12 @@ game.GameOverScreen = me.ScreenObject.extend({
                     _this.cursor = [_this.cursor[0], _this.cursor[1] - 1];
                 } else if (action === "right") {
                     _this.cursor = [_this.cursor[0], _this.cursor[1] + 1];
-                } else if (action === "up") {
-                    _this.cursor = [_this.cursor[0] - 1, _this.cursor[1]];
-                } else if (action === "down") {
-                    _this.cursor = [_this.cursor[0] + 1, _this.cursor[1]];
-                }
+                } 
+                //else if (action === "up") {
+                //    _this.cursor = [_this.cursor[0] - 1, _this.cursor[1]];
+                //} else if (action === "down") {
+                //    _this.cursor = [_this.cursor[0] + 1, _this.cursor[1]];
+                //}
                 _this.getHighlightedButton().alpha = 0.5;
             }
         });

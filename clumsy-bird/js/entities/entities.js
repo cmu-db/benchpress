@@ -4,10 +4,17 @@ var BirdEntity = me.Entity.extend({
             settings = {};
         }
         settings.image = me.loader.getImage(game.data.playerImg);
-        settings.width = 85;
-        settings.height = 60;
-        settings.spritewidth = 85;
-        settings.spriteheight= 60;
+        if (game.data.playerImg == "clumsy2") {
+            settings.height = 96;
+            settings.spriteheight= 96;
+            settings.width = 96;
+            settings.spritewidth = 96;
+        } else {
+            settings.height = 60;
+            settings.spriteheight= 60;
+            settings.width = 85;
+            settings.spritewidth = 85;
+        }
 
         this._super(me.Entity, 'init', [x, y, settings]);
         this.alwaysUpdate = true;

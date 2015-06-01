@@ -29,11 +29,25 @@ game.SelectionScreen = me.ScreenObject.extend({
             me.audio.play("theme", true);  // commenting out this very annoying soundtrack
         }
         me.game.world.addChild(new BackgroundLayer('bg', 1));
-        this.ground1 = me.pool.pull("ground", 0, me.video.renderer.getHeight() - 96);
-        this.ground2 = me.pool.pull("ground", me.video.renderer.getWidth(),
-                                    me.video.renderer.getHeight() - 96);
-        me.game.world.addChild(this.ground1, 11);
-        me.game.world.addChild(this.ground2, 11);
+        //game.data.stageImgs.ground = "ground1";
+        //this.ground1 = me.pool.pull("ground", 0, me.video.renderer.getHeight() - 96);
+        //this.ground2 = me.pool.pull("ground", me.video.renderer.getWidth(),
+        //                            me.video.renderer.getHeight() - 96);
+        //me.game.world.addChild(this.ground1, 11);
+        //me.game.world.addChild(this.ground2, 11);
+        this.ground1 = me.loader.getImage('ground');
+        me.game.world.addChild(new me.Sprite(
+            0,
+            me.video.renderer.getHeight() - 96,
+            this.ground1
+        ), 11);
+        this.ground2 = me.loader.getImage('ground');
+        me.game.world.addChild(new me.Sprite(
+            me.video.renderer.getWidth(),
+            me.video.renderer.getHeight() - 96,
+            this.ground2
+        ), 11);
+
         me.input.bindKey(me.input.KEY.RIGHT, "right", true);
         me.input.bindKey(me.input.KEY.LEFT, "left", true);
         me.input.bindKey(me.input.KEY.UP, "up", true);
@@ -65,9 +79,12 @@ game.SelectionScreen = me.ScreenObject.extend({
             var col = i % this.shape[0];
             var x = centerX - fullWidth / 2 + (gImage.width + margin) * col// - gImage.width / 2;
             var y = centerY - fullHeight / 2 + (gImage.height + margin) * row// - gImage.height / 2;
+            // Add plain frame that sits behind each button
+            var gFrameImg = me.loader.getImage('plainframe');
+            me.game.world.addChild(new me.Sprite(x, y, gFrameImg), 12); 
             var button = new this.buttonFactory(x, y, gImage, this.buttons[i].db, this.buttons[i].targetImgs);
             this.buttonGrid[row][col] = button;
-            me.game.world.addChild(button, 12);
+            me.game.world.addChild(button, 13);
         }
         
         // deal with button grid scrolling

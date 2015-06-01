@@ -22,7 +22,8 @@ game.TitleScreen = me.ScreenObject.extend({
 
         this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
             if (action === "enter") {
-                me.state.change(game.states.PLAYER_SELECT);
+                //me.state.change(game.states.PLAYER_SELECT);
+                me.state.change(game.states.STAGE_SELECT);
             }
         });
 
